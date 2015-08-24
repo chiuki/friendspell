@@ -1,0 +1,33 @@
+<resources>
+  <string name="app_name">Friend Spell</string>
+
+  <string name="tagline">Tag nearby friends and spell words!</string>
+  <string name="friend_c">Chris</string>
+  <string name="friend_a">Amy</string>
+  <string name="friend_r">Rae</string>
+
+  <string name="title_word_sets">Pick a Word Set</string>
+
+  <string name="action_nearby_add">Tag nearby people</string>
+  <string name="action_people">Tagged people</string>
+  <string name="action_sign_out">Sign out</string>
+
+  <string name="multi_source_tip">4 people can spell any letter</string>
+  <string name="spell">Spell</string>
+
+  <string name="title_nearby">Nearby</string>
+  <string name="publishing_message">You are visible to nearby devices as:</string>
+  <plurals name="friend_added">
+    <item quantity="one">%1$s friend added</item>
+    <item quantity="other">%1$s friends added</item>
+  </plurals>
+  <string name="subscribing_message">
+    Ask your friends to open the app to this page and wait for them to show up.
+    (It can take up to 10 seconds)
+    \n\n
+    If it does not work, go back one screen, then open this page again.
+  </string>
+
+  <string name="title_people">Tagged people</string>
+  <string name="empty_people_list">No one tagged yet</string>
+</resources>

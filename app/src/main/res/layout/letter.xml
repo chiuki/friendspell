@@ -1,0 +1,7 @@
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/spell_letter_box_size"
+    android:layout_height="@dimen/spell_letter_box_size"
+    android:gravity="center"
+    android:layout_margin="@dimen/spell_letter_margin"
+    android:textSize="@dimen/spell_letter_size" />

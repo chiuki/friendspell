@@ -1,0 +1,7 @@
+<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/spell_letter_box_size"
+    android:layout_height="@dimen/spell_letter_box_size"
+    android:layout_margin="@dimen/spell_letter_margin"
+    android:gravity="center"
+    android:background="@drawable/letter_source_background"/>

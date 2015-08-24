@@ -1,0 +1,30 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/spell_letter_box_size"
+    android:layout_height="@dimen/spell_letter_box_size"
+    android:layout_margin="@dimen/spell_letter_margin">
+  <ImageView
+      android:id="@+id/source1"
+      android:layout_width="@dimen/spell_letter_box_size_half"
+      android:layout_height="@dimen/spell_letter_box_size_half"
+      android:background="@drawable/letter_source_background"/>
+  <ImageView
+      android:id="@+id/source2"
+      android:layout_width="@dimen/spell_letter_box_size_half"
+      android:layout_height="@dimen/spell_letter_box_size_half"
+      android:layout_toRightOf="@id/source1"
+      android:background="@drawable/letter_source_background"/>
+  <ImageView
+      android:id="@+id/source3"
+      android:layout_width="@dimen/spell_letter_box_size_half"
+      android:layout_height="@dimen/spell_letter_box_size_half"
+      android:layout_below="@id/source1"
+      android:background="@drawable/letter_source_background"/>
+  <ImageView
+      android:id="@+id/source4"
+      android:layout_width="@dimen/spell_letter_box_size_half"
+      android:layout_height="@dimen/spell_letter_box_size_half"
+      android:layout_below="@id/source1"
+      android:layout_toRightOf="@id/source3"
+      android:background="@drawable/letter_source_background"/>
+</RelativeLayout>

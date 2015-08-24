@@ -1,0 +1,13 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+  <include layout="@layout/part_main_signed_out"/>
+  <ListView
+      android:id="@+id/word_sets"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:visibility="gone"/>
+</FrameLayout>

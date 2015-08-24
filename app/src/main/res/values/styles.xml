@@ -1,0 +1,24 @@
+<resources>
+  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/primary_dark</item>
+    <item name="nearbyTipArrow">@style/nearbyTipArrow</item>
+  </style>
+  <style name="AppTheme.People">
+    <item name="nearbyTipArrow">@style/nearbyTipArrowPeople</item>
+  </style>
+  <style name="IntroFriendName">
+    <item name="android:layout_width">@dimen/spell_letter_box_size</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginLeft">@dimen/spell_letter_margin</item>
+    <item name="android:layout_marginRight">@dimen/spell_letter_margin</item>
+    <item name="android:gravity">center</item>
+    <item name="android:textSize">12sp</item>
+  </style>
+  <style name="nearbyTipArrow">
+    <item name="android:layout_marginRight">52dp</item>
+  </style>
+  <style name="nearbyTipArrowPeople">
+    <item name="android:layout_marginRight">4dp</item>
+  </style>
+</resources>

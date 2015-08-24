@@ -1,0 +1,23 @@
+<resources>
+  <!-- Default screen margins, per the Android Design guidelines. -->
+  <dimen name="activity_horizontal_margin">16dp</dimen>
+  <dimen name="activity_vertical_margin">16dp</dimen>
+
+  <dimen name="automobile_width">160dp</dimen>
+  <dimen name="automobile_height">95dp</dimen>
+  <dimen name="automobile_viewport_width">128px</dimen>
+  <dimen name="automobile_viewport_height">76px</dimen>
+
+  <dimen name="word_image_thumbnail_size">32dp</dimen>
+  <dimen name="word_image_size">256dp</dimen>
+  <dimen name="vector_drawable_size">128dp</dimen>
+  <dimen name="vector_drawable_viewport_size">128px</dimen>
+
+  <dimen name="spell_letter_box_size">40sp</dimen>
+  <dimen name="spell_letter_box_size_half">20sp</dimen>
+  <dimen name="spell_letter_size">30sp</dimen>
+  <dimen name="spell_letter_margin">2dp</dimen>
+
+  <dimen name="nearby_person_thumbnail_margin">4dp</dimen>
+  <dimen name="nearby_person_thumbnail_size">32dp</dimen>
+</resources>

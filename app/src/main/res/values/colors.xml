@@ -1,0 +1,7 @@
+<resources>
+  <color name="letter_placeholder">#ccc</color>
+  <color name="primary">#673AB7</color>
+  <color name="primary_dark">#311B92</color>
+
+  <color name="tip_background">#55673AB7</color>
+</resources>

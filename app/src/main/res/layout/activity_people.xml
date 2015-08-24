@@ -1,0 +1,28 @@
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".NearbyActivity">
+  <ListView
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+  <FrameLayout
+    android:id="@+id/empty"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:text="@string/empty_people_list"
+      android:textSize="20sp"/>
+    <include
+      android:id="@+id/nearby_tip"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="right"
+      layout="@layout/part_nearby_add_tip"/>
+  </FrameLayout>
+</FrameLayout>

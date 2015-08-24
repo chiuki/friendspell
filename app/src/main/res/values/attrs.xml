@@ -1,0 +1,3 @@
+<resources>
+  <attr name="nearbyTipArrow" format="reference" />
+</resources>

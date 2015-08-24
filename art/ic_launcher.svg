@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512">
+<g fill="#F44336">
+  <path d="
+  M 24 488
+  L 172 488
+  L 172 293
+  Q 172 219 98 219
+  Q 24 219 24 293
+  Z
+  " />
+  <circle cx="98" cy="132" r="60" />
+</g>
+<text x="98" y="400" text-anchor="middle" font-family="Arial" font-size="144" fill="#FFCDD2">A</text>
+<g fill="#8BC34A">
+  <path d="
+  M 182 488
+  L 330 488
+  L 330 293
+  Q 330 219 256 219
+  Q 182 219 182 293
+  Z
+  " />
+  <circle cx="256" cy="132" r="60" />
+</g>
+<text x="256" y="400" text-anchor="middle" font-family="Arial" font-size="144" fill="#DCEDC8">B</text>
+<g fill="#00BCD4">
+  <path d="
+  M 340 488
+  L 488 488
+  L 488 293
+  Q 488 219 414 219
+  Q 340 219 340 293
+  Z
+  " />
+  <circle cx="414" cy="132" r="60" />
+</g>
+<text x="414" y="400" text-anchor="middle" font-family="Arial" font-size="144" fill="#B2EBF2">C</text>
+</svg>

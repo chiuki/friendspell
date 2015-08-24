@@ -1,0 +1,13 @@
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/multi_source_tip"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@color/tip_background"
+    android:text="@string/multi_source_tip"
+    android:textColor="@color/primary_dark"
+    android:visibility="gone"/>

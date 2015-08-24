@@ -1,0 +1,9 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+      android:id="@+id/action_nearby_add"
+      android:icon="@drawable/ic_action_person_add"
+      android:title="@string/action_nearby_add"
+      app:showAsAction="ifRoom"/>
+</menu>

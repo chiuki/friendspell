@@ -1,0 +1,75 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+  compileSdkVersion 23
+  buildToolsVersion "23.0.0"
+
+  defaultConfig {
+    applicationId "com.sqisland.friendspell"
+    minSdkVersion 14
+    targetSdkVersion 23
+    versionCode 3
+    versionName "1.0.2"
+
+    testInstrumentationRunner "com.sqisland.friendspell.util.AndroidJacocoTestRunner"
+  }
+
+  buildTypes {
+    debug {
+      testCoverageEnabled true
+    }
+  }
+
+  productFlavors {
+    canned {
+    }
+    normal {
+    }
+  }
+
+  packagingOptions {
+    exclude 'LICENSE.txt'
+  }
+}
+
+final DAGGER_VERSION = '2.0.1'
+final DEXMAKER_VERSION = '1.2'
+final MOCKITO_VERSION = '1.10.19'
+final GOOGLE_PLAY_SERVICES_VERSION = '7.8.0'
+final SUPPORT_LIB_VERSION = '23.0.0'
+
+dependencies {
+  compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+  apt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+  provided 'javax.annotation:javax.annotation-api:1.2'
+
+  compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+  compile "com.google.android.gms:play-services-plus:${GOOGLE_PLAY_SERVICES_VERSION}"
+  compile "com.google.android.gms:play-services-nearby:${GOOGLE_PLAY_SERVICES_VERSION}"
+
+  compile 'nl.qbusict:cupboard:2.1.2'
+  compile 'com.google.code.gson:gson:2.3.1'
+  compile 'com.squareup.picasso:picasso:2.5.2'
+
+  compile 'com.jakewharton.timber:timber:3.1.0'
+  compile 'com.jakewharton:butterknife:7.0.1'
+
+  testCompile 'junit:junit:4.12'
+
+  androidTestCompile ('com.android.support.test:runner:0.3') {
+    exclude module: 'support-annotations'
+  }
+  androidTestCompile ('com.android.support.test:rules:0.3') {
+    exclude module: 'support-annotations'
+  }
+  androidTestCompile ("com.android.support.test.espresso:espresso-core:2.2") {
+    exclude module: 'support-annotations'
+  }
+
+  androidTestCompile "com.google.dexmaker:dexmaker:${DEXMAKER_VERSION}"
+  androidTestCompile "com.google.dexmaker:dexmaker-mockito:${DEXMAKER_VERSION}"
+  androidTestCompile "org.mockito:mockito-core:${MOCKITO_VERSION}"
+  androidTestApt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+}
