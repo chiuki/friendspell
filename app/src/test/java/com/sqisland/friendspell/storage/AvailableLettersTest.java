@@ -1,7 +1,6 @@
-package com.sqisland.friendspell.util;
+package com.sqisland.friendspell.storage;
 
-import com.sqisland.friendspell.storage.AvailableLetters;
-import com.sqisland.friendspell.storage.LetterSource;
+import com.sqisland.friendspell.util.TestUtil;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
