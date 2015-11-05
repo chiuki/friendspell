@@ -4,16 +4,16 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
   compileSdkVersion 23
-  buildToolsVersion "23.0.2"
+  buildToolsVersion '23.0.2'
 
   defaultConfig {
-    applicationId "com.sqisland.friendspell"
+    applicationId 'com.sqisland.friendspell'
     minSdkVersion 14
     targetSdkVersion 23
     versionCode 3
-    versionName "1.0.2"
+    versionName '1.0.2'
 
-    testInstrumentationRunner "com.sqisland.friendspell.util.AndroidJacocoTestRunner"
+    testInstrumentationRunner 'com.sqisland.friendspell.util.AndroidJacocoTestRunner'
   }
 
   buildTypes {
@@ -64,7 +64,7 @@ dependencies {
   androidTestCompile ('com.android.support.test:rules:0.4.1') {
     exclude module: 'support-annotations'
   }
-  androidTestCompile ("com.android.support.test.espresso:espresso-core:2.2.1") {
+  androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.1') {
     exclude module: 'support-annotations'
   }
 
