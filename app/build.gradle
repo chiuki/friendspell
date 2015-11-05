@@ -49,7 +49,7 @@ dependencies {
   compile "com.google.android.gms:play-services-plus:${GOOGLE_PLAY_SERVICES_VERSION}"
   compile "com.google.android.gms:play-services-nearby:${GOOGLE_PLAY_SERVICES_VERSION}"
 
-  compile 'nl.qbusict:cupboard:2.1.2'
+  compile 'nl.qbusict:cupboard:2.1.4'
   compile 'com.google.code.gson:gson:2.4'
   compile 'com.squareup.picasso:picasso:2.5.2'
 
