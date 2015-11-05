@@ -34,7 +34,7 @@ android {
   }
 }
 
-final DAGGER_VERSION = '2.0.1'
+final DAGGER_VERSION = '2.0.2'
 final DEXMAKER_VERSION = '1.2'
 final MOCKITO_VERSION = '1.10.19'
 final GOOGLE_PLAY_SERVICES_VERSION = '7.8.0'
