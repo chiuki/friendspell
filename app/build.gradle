@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'com.google.gms.google-services'
+
+tasks.matching {it instanceof Test}.all {
+  testLogging.events = ["failed", "passed", "skipped"]
+}
 
 android {
   compileSdkVersion 23
@@ -29,6 +32,14 @@ android {
     }
   }
 
+  // Remove cannedRelease as it's not needed.
+  android.variantFilter { variant ->
+    if(variant.buildType.name.equals('release')
+            && variant.getFlavors().get(0).name.equals('canned')) {
+      variant.setIgnore(true);
+    }
+  }
+
   packagingOptions {
     exclude 'LICENSE.txt'
   }
@@ -38,7 +49,8 @@ final DAGGER_VERSION = '2.0.2'
 final DEXMAKER_VERSION = '1.2'
 final MOCKITO_VERSION = '1.10.19'
 final GOOGLE_PLAY_SERVICES_VERSION = '8.3.0'
-final SUPPORT_LIB_VERSION = '23.1.0'
+final SUPPORT_LIB_VERSION = '23.1.1'
+final ESPRESSO_VERSION = '2.2.1'
 
 dependencies {
   compile "com.google.dagger:dagger:${DAGGER_VERSION}"
@@ -48,6 +60,7 @@ dependencies {
   compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
   compile "com.google.android.gms:play-services-plus:${GOOGLE_PLAY_SERVICES_VERSION}"
   compile "com.google.android.gms:play-services-nearby:${GOOGLE_PLAY_SERVICES_VERSION}"
+  compile "com.google.android.gms:play-services-auth:${GOOGLE_PLAY_SERVICES_VERSION}"
 
   compile 'nl.qbusict:cupboard:2.1.4'
   compile 'com.google.code.gson:gson:2.4'
@@ -64,7 +77,10 @@ dependencies {
   androidTestCompile ('com.android.support.test:rules:0.4.1') {
     exclude module: 'support-annotations'
   }
-  androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.1') {
+  androidTestCompile ("com.android.support.test.espresso:espresso-core:${ESPRESSO_VERSION}") {
+    exclude module: 'support-annotations'
+  }
+  androidTestCompile ("com.android.support.test.espresso:espresso-intents:${ESPRESSO_VERSION}") {
     exclude module: 'support-annotations'
   }
 
@@ -73,3 +89,5 @@ dependencies {
   androidTestCompile "org.mockito:mockito-core:${MOCKITO_VERSION}"
   androidTestApt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
 }
+
+apply plugin: 'com.google.gms.google-services'

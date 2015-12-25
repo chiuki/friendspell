@@ -1,15 +1,15 @@
 package com.sqisland.friendspell.activity;
 
 import android.app.Activity;
-import android.app.PendingIntent;
+import android.app.Instrumentation.ActivityResult;
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.model.people.Person;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.sqisland.friendspell.R;
 import com.sqisland.friendspell.api.GoogleApiClientBridge;
 import com.sqisland.friendspell.util.TestUtil;
@@ -25,6 +25,8 @@ import org.mockito.stubbing.Answer;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.not;
@@ -32,16 +34,19 @@ import static org.hamcrest.Matchers.not;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest extends BaseTest {
   @Rule
-  public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(
+  public IntentsTestRule<MainActivity> activityRule = new IntentsTestRule<>(
       MainActivity.class,
       true,     // initialTouchMode
       false);   // launchActivity. False so we set up before activity launch
 
   @Test
   public void signIn() {
-    setupGoogleApiClientBridge(googleApiClientBridge, false, true);
+    setupGoogleApiClientBridge(googleApiClientBridge, false);
 
     Activity activity = activityRule.launchActivity(null);
+
+    ActivityResult result = createSignInResult();
+    intending(hasAction("com.google.android.gms.auth.GOOGLE_SIGN_IN")).respondWith(result);
 
     onView(withId(R.id.signed_out_pane))
         .check(matches(isDisplayed()));
@@ -54,7 +59,11 @@ public class MainActivityTest extends BaseTest {
         .check(matches(not(isDisplayed())));
     TestUtil.matchToolbarTitle(activity.getString(R.string.title_word_sets));
 
-    Mockito.verify(googleApiClientBridge, Mockito.times(2)).connect(Mockito.anyString());
+    Mockito.verify(googleApiClientBridge, Mockito.times(2)).isSignedIn();
+  }
+
+  private ActivityResult createSignInResult() {
+    return new ActivityResult(Activity.RESULT_OK, null);
   }
 
   @Test
@@ -80,7 +89,7 @@ public class MainActivityTest extends BaseTest {
   }
 
   protected static void setupGoogleApiClientBridge(
-      GoogleApiClientBridge googleApiClientBridge, final boolean... statuses) {
+      GoogleApiClientBridge googleApiClientBridge, final boolean initialStatus) {
     final String token = "token";
     final ArgumentCaptor<GoogleApiClient.ConnectionCallbacks> connectedArgument
         = ArgumentCaptor.forClass(GoogleApiClient.ConnectionCallbacks.class);
@@ -89,24 +98,32 @@ public class MainActivityTest extends BaseTest {
     Mockito.when(googleApiClientBridge.init(Mockito.any(Activity.class),
         connectedArgument.capture(), failedArgument.capture())).thenReturn(token);
     Mockito.doAnswer(new Answer() {
-      int count = 0;
       @Override public Object answer(InvocationOnMock invocation) throws Throwable {
-        if (statuses[count]) {
           connectedArgument.getValue().onConnected(null);
-        } else {
-          PendingIntent pendingIntent = PendingIntent.getActivity(
-              InstrumentationRegistry.getTargetContext(), 0, new Intent(), 0);
-          ConnectionResult result = new ConnectionResult(
-              ConnectionResult.SIGN_IN_REQUIRED, pendingIntent);
-          failedArgument.getValue().onConnectionFailed(result);
-        }
-        count += 1;
-        return null;
+          return null;
       }
     }).when(googleApiClientBridge).connect(Mockito.anyString());
-    Mockito.when(googleApiClientBridge.isConnected(Mockito.anyString())).thenReturn(true);
 
-    Person person = Mockito.mock(Person.class);
-    Mockito.when(googleApiClientBridge.getCurrentPerson(Mockito.anyString())).thenReturn(person);
+    GoogleSignInAccount account = Mockito.mock(GoogleSignInAccount.class);
+    Mockito.when(googleApiClientBridge.getCurrentAccount()).thenReturn(account);
+
+    @SuppressWarnings("unchecked") OptionalPendingResult<GoogleSignInResult> mockPendingResult =
+            Mockito.mock(OptionalPendingResult.class);
+    GoogleSignInResult mockInitialSignInResult = Mockito.mock(GoogleSignInResult.class);
+    Mockito.when(mockInitialSignInResult.isSuccess()).thenReturn(initialStatus);
+    Mockito.when(mockInitialSignInResult.getSignInAccount()).thenReturn(account);
+    GoogleSignInResult mockSuccessfulSignInResult = Mockito.mock(GoogleSignInResult.class);
+    Mockito.when(mockSuccessfulSignInResult.isSuccess()).thenReturn(true);
+    Mockito.when(mockSuccessfulSignInResult.getSignInAccount()).thenReturn(account);
+    Mockito.when(mockPendingResult.isDone()).thenReturn(true);
+    Mockito.when(mockPendingResult.get()).thenReturn(mockInitialSignInResult);
+    Mockito.when(googleApiClientBridge.silentSignIn(Mockito.anyString()))
+            .thenReturn(mockPendingResult);
+    Mockito.when(googleApiClientBridge.isConnected(Mockito.anyString())).thenReturn(true);
+    Mockito.when(googleApiClientBridge.isSignedIn()).thenReturn(initialStatus);
+    Mockito.when(googleApiClientBridge.getSignInResultFromIntent(Mockito.any(Intent.class)))
+            .thenReturn(mockSuccessfulSignInResult);
+    Mockito.when(googleApiClientBridge.getSignInIntent(Mockito.anyString()))
+            .thenReturn(new Intent("com.google.android.gms.auth.GOOGLE_SIGN_IN"));
   }
 }

@@ -1,10 +1,18 @@
 package com.sqisland.friendspell.api;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.util.SimpleArrayMap;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.nearby.Nearby;
@@ -24,6 +32,7 @@ import timber.log.Timber;
 public class GoogleApiClientBridge {
   private final SimpleArrayMap<String, GoogleApiClient> clients = new SimpleArrayMap<>();
   private final SimpleArrayMap<String, String> profileImages = new SimpleArrayMap<>();
+  private GoogleSignInAccount currentAccount;
 
   public GoogleApiClientBridge() {
   }
@@ -32,12 +41,19 @@ public class GoogleApiClientBridge {
       Activity activity,
       GoogleApiClient.ConnectionCallbacks connectedListener,
       GoogleApiClient.OnConnectionFailedListener connectionFailedListener) {
+    // Configure sign-in to request the user's ID, email address, and basic profile. ID and
+    // basic profile are included in DEFAULT_SIGN_IN.
+    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestId()
+            .requestProfile()
+            .build();
+
     GoogleApiClient googleApiClient = new GoogleApiClient.Builder(activity)
         .addConnectionCallbacks(connectedListener)
         .addOnConnectionFailedListener(connectionFailedListener)
         .addApi(Plus.API)
-        .addScope(Plus.SCOPE_PLUS_LOGIN)
-        .addScope(Plus.SCOPE_PLUS_PROFILE)
+        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
         .addApi(Nearby.MESSAGES_API)
         .build();
     String token = UUID.randomUUID().toString();
@@ -51,7 +67,7 @@ public class GoogleApiClientBridge {
 
   public void connect(String token) {
     GoogleApiClient googleApiClient = clients.get(token);
-    googleApiClient.connect();
+    googleApiClient.connect(GoogleApiClient.SIGN_IN_MODE_OPTIONAL);
   }
 
   public boolean isConnected(String token) {
@@ -66,22 +82,47 @@ public class GoogleApiClientBridge {
     }
   }
 
-  public void signOut(String token) {
-    GoogleApiClient googleApiClient = clients.get(token);
-    if (googleApiClient.isConnected()) {
-      Plus.AccountApi.clearDefaultAccount(googleApiClient);
-      googleApiClient.disconnect();
-    }
+  public boolean isSignedIn() {
+    return currentAccount != null;
   }
 
-  public Person getCurrentPerson(String token) {
+  public void setCurrentAccount(GoogleSignInAccount account) {
+    currentAccount = account;
+  }
+
+  public Intent getSignInIntent(String token) {
     GoogleApiClient googleApiClient = clients.get(token);
-    if (googleApiClient == null) {
+    return Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+  }
+
+  public GoogleSignInResult getSignInResultFromIntent(Intent intent) {
+    return Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
+  }
+
+  public OptionalPendingResult<GoogleSignInResult> silentSignIn(String token) {
+    GoogleApiClient googleApiClient = clients.get(token);
+    return Auth.GoogleSignInApi.silentSignIn(googleApiClient);
+  }
+
+  public void signOut(String token) {
+    currentAccount = null;
+    GoogleApiClient googleApiClient = clients.get(token);
+    final PendingResult<Status> statusPendingResult =
+            Auth.GoogleSignInApi.signOut(googleApiClient);
+    statusPendingResult.setResultCallback(new ResultCallback<Status>() {
+      @Override
+      public void onResult(@NonNull Status status) {
+        Timber.d("Sign out: %s", status);
+      }
+    });
+  }
+
+  public GoogleSignInAccount getCurrentAccount() {
+    if (currentAccount == null) {
       return null;
     }
-    Person person = Plus.PeopleApi.getCurrentPerson(googleApiClient);
-    profileImages.put(person.getId(), getProfileImageUrl(person));
-    return person;
+    profileImages.put(currentAccount.getId(), getCurrentAccountImageUrl());
+    return currentAccount;
   }
 
   public String getProfileImage(String userId) {
@@ -124,7 +165,7 @@ public class GoogleApiClientBridge {
             personBuffer.close();
           }
         } else {
-          Timber.e("Error requesting people data: " + peopleData.getStatus());
+          Timber.e("Error requesting people data: %s", peopleData.getStatus());
         }
       }
     });
@@ -159,6 +200,10 @@ public class GoogleApiClientBridge {
       Nearby.Messages.unsubscribe(googleApiClient, listener)
           .setResultCallback(callback);
     }
+  }
+
+  private String getCurrentAccountImageUrl() {
+    return currentAccount.getPhotoUrl() != null ? currentAccount.getPhotoUrl().toString() : null;
   }
 
   private String getProfileImageUrl(Person person) {
