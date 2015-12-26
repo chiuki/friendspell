@@ -1,10 +1,15 @@
 package com.sqisland.friendspell.util;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnitRunner;
 import android.util.Log;
 
 import com.sqisland.friendspell.BuildConfig;
+import com.sqisland.friendspell.MockFriendSpellApplication;
+import com.sqisland.friendspell.dagger.MockDatabaseApiModule;
 
 import java.lang.reflect.Method;
 
@@ -28,6 +33,16 @@ public class AndroidJacocoTestRunner extends AndroidJUnitRunner {
     } catch (Throwable e) {
       Timber.e(Log.getStackTraceString(e));
     }
+
+    InstrumentationRegistry.getInstrumentation().getTargetContext().deleteDatabase
+        (MockDatabaseApiModule.DATABASE_NAME);
+
     super.finish(resultCode, results);
+  }
+
+  @Override
+  public Application newApplication(ClassLoader cl, String className, Context context)
+      throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+    return super.newApplication(cl, MockFriendSpellApplication.class.getName(), context);
   }
 }

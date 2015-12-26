@@ -5,7 +5,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.sqisland.friendspell.dagger.MockDatabaseApiModule;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -122,11 +121,5 @@ public class DatabaseApiTest {
     LetterSource loaded = databaseApi.loadLetter("id_" + letter);
     assertNotNull(loaded);
     assertEquals(0, loaded.available);
-  }
-
-  @After
-  public void tearDown() {
-    InstrumentationRegistry.getInstrumentation().getTargetContext().deleteDatabase
-        (MockDatabaseApiModule.DATABASE_NAME);
   }
 }

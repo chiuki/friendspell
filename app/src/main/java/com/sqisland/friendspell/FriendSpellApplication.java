@@ -11,7 +11,7 @@ import com.sqisland.friendspell.dagger.GoogleApiClientBridgeModule;
 import timber.log.Timber;
 
 public class FriendSpellApplication extends Application {
-  private FriendSpellComponent component = null;
+  private final FriendSpellComponent component = createComponent();
 
   @Override
   public void onCreate() {
@@ -22,21 +22,17 @@ public class FriendSpellApplication extends Application {
     } else {
       Timber.plant(new ErrorTree());
     }
-
-    if (component == null) {
-      component = DaggerApplicationComponent.builder()
-          .androidModule(new AndroidModule(this))
-          .googleApiClientBridgeModule(new GoogleApiClientBridgeModule())
-          .build();
-    }
-  }
-
-  public void setComponent(FriendSpellComponent component) {
-    this.component = component;
   }
 
   public FriendSpellComponent component() {
     return component;
+  }
+
+  protected FriendSpellComponent createComponent() {
+    return DaggerApplicationComponent.builder()
+        .androidModule(new AndroidModule(this))
+        .googleApiClientBridgeModule(new GoogleApiClientBridgeModule())
+        .build();
   }
 
   private static class ErrorTree extends Timber.Tree {

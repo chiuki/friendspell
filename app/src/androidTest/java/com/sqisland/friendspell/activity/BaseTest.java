@@ -6,13 +6,9 @@ import android.support.test.InstrumentationRegistry;
 
 import com.sqisland.friendspell.FriendSpellApplication;
 import com.sqisland.friendspell.api.GoogleApiClientBridge;
-import com.sqisland.friendspell.dagger.DaggerTestComponent;
-import com.sqisland.friendspell.dagger.MockDatabaseApiModule;
-import com.sqisland.friendspell.dagger.MockGoogleApiClientBridgeModule;
 import com.sqisland.friendspell.dagger.TestComponent;
 import com.sqisland.friendspell.storage.DatabaseApi;
 
-import org.junit.After;
 import org.junit.Before;
 import org.mockito.Mockito;
 
@@ -33,19 +29,15 @@ public class BaseTest {
     Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
     FriendSpellApplication app
         = (FriendSpellApplication) instrumentation.getTargetContext().getApplicationContext();
-    TestComponent component = DaggerTestComponent.builder()
-        .mockDatabaseApiModule(new MockDatabaseApiModule(app))
-        .mockGoogleApiClientBridgeModule(new MockGoogleApiClientBridgeModule())
-        .build();
-    app.setComponent(component);
+    TestComponent component = (TestComponent) app.component();
     component.inject(this);
 
     Mockito.reset(googleApiClientBridge);
-  }
 
-  @After
-  public void tearDown() {
-    InstrumentationRegistry.getInstrumentation().getTargetContext().deleteDatabase
-        (MockDatabaseApiModule.DATABASE_NAME);
+    databaseApi.clear();
+
+    SharedPreferences.Editor editor = pref.edit();
+    editor.clear();
+    editor.apply();
   }
 }
