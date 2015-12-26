@@ -2,6 +2,7 @@ package com.sqisland.friendspell.util;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.support.test.InstrumentationRegistry;
@@ -12,11 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
-import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
 import com.sqisland.friendspell.R;
 import com.sqisland.friendspell.api.GoogleApiClientBridge;
@@ -131,13 +132,12 @@ public class TestUtil {
     }).when(googleApiClientBridge).connect(Mockito.anyString());
     Mockito.when(googleApiClientBridge.isConnected(Mockito.anyString())).thenReturn(true);
 
-    Person person = Mockito.mock(Person.class);
-    Mockito.when(person.getDisplayName()).thenReturn(ME_DISPLAY_NAME);
-    Person.Image image = Mockito.mock(Person.Image.class);
-    Mockito.when(image.hasUrl()).thenReturn(true);
-    Mockito.when(image.getUrl()).thenReturn("http://lorempixel.com/50/50/cats");
-    Mockito.when(person.getImage()).thenReturn(image);
-    Mockito.when(googleApiClientBridge.getCurrentPerson(Mockito.anyString())).thenReturn(person);
+    GoogleSignInAccount account = Mockito.mock(GoogleSignInAccount.class);
+    Mockito.when(account.getDisplayName()).thenReturn(ME_DISPLAY_NAME);
+    Uri imageUri = Mockito.mock(Uri.class);
+    Mockito.when(imageUri.toString()).thenReturn("http://lorempixel.com/50/50/cats");
+    Mockito.when(account.getPhotoUrl()).thenReturn(imageUri);
+    Mockito.when(googleApiClientBridge.getCurrentAccount()).thenReturn(account);
 
     final ArgumentCaptor<MessageListener> messageListenerArgument
         = ArgumentCaptor.forClass(MessageListener.class);

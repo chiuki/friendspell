@@ -1,12 +1,12 @@
 package com.sqisland.friendspell.activity;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.DimenRes;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -19,8 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.sqisland.friendspell.FriendSpellApplication;
 import com.sqisland.friendspell.R;
 import com.sqisland.friendspell.api.GoogleApiClientBridge;
@@ -77,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements
   @Inject
   SharedPreferences pref;
 
-  private boolean isResolving = false;
-  private boolean shouldResolve = false;
   private boolean shouldAutoLogin = true;
 
   private WordSetStore store;
@@ -156,9 +157,7 @@ public class MainActivity extends AppCompatActivity implements
 
   @Override public void onStart() {
     super.onStart();
-    if (shouldAutoLogin) {
-      googleApiClientBridge.connect(googleApiClientToken);
-    }
+    googleApiClientBridge.connect(googleApiClientToken);
   }
 
   @Override public void onStop() {
@@ -173,62 +172,63 @@ public class MainActivity extends AppCompatActivity implements
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    Timber.d("onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
+    Timber.d("onActivityResult:%d:%d:%s", requestCode, resultCode, data);
 
     switch (requestCode) {
       case Constants.REQUEST_CODE_GOOGLE_PLUS_SIGN_IN:
-        // If the error resolution was not successful we should not resolve further.
-        if (resultCode != RESULT_OK) {
-          shouldResolve = false;
-        }
-
-        isResolving = false;
-        googleApiClientBridge.connect(googleApiClientToken);
+        GoogleSignInResult result = googleApiClientBridge.getSignInResultFromIntent(data);
+        handleSignInResult(result);
         break;
       default:
         super.onActivityResult(requestCode, resultCode, data);
     }
   }
 
+  public void handleSignInResult(GoogleSignInResult result) {
+    Timber.d("handleSignInResult status: %s", result.getStatus());
+    if (result.isSuccess()) {
+      googleApiClientBridge.setCurrentAccount(result.getSignInAccount());
+      showAutoSignedInUI();
+    } else {
+      googleApiClientBridge.setCurrentAccount(null);
+      showSignedOutUI();
+    }
+  }
+
   @Override
   public void onConnected(Bundle connectionHint) {
     Timber.d("onConnected");
-    shouldResolve = false;
-    showAutoSignedInUI();
+    if (shouldAutoLogin) {
+      OptionalPendingResult<GoogleSignInResult> pendingResult =
+              googleApiClientBridge.silentSignIn(googleApiClientToken);
+      if (pendingResult.isDone()) {
+        // There's immediate result available.
+        handleSignInResult(pendingResult.get());
+      } else {
+        // There's no immediate result ready
+        pendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+          @Override
+          public void onResult(@NonNull GoogleSignInResult result) {
+            handleSignInResult(result);
+          }
+        });
+      }
+    }
   }
 
   @Override
   public void onConnectionSuspended(int cause) {
-    Timber.d("onConnectionSuspended: " + cause);
+    Timber.d("onConnectionSuspended: %d", cause);
     googleApiClientBridge.connect(googleApiClientToken);
   }
 
   @Override
-  public void onConnectionFailed(ConnectionResult connectionResult) {
+  public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     // Could not connect to Google Play Services.  The user needs to select an account,
     // grant permissions or resolve an error in order to sign in. Refer to the javadoc for
     // ConnectionResult to see possible error codes.
-    Timber.d("onConnectionFailed:" + connectionResult);
-
-    if (!isResolving && shouldResolve) {
-      if (connectionResult.hasResolution()) {
-        try {
-          connectionResult.startResolutionForResult(
-              this, Constants.REQUEST_CODE_GOOGLE_PLUS_SIGN_IN);
-          isResolving = true;
-        } catch (IntentSender.SendIntentException e) {
-          Timber.e("Could not resolve ConnectionResult.", e);
-          isResolving = false;
-          googleApiClientBridge.connect(googleApiClientToken);
-        }
-      } else {
-        // Could not resolve the connection result, show the user an
-        // error dialog.
-        // showErrorDialog(connectionResult);
-      }
-    } else {
-      showSignedOutUI();
-    }
+    Timber.d("onConnectionFailed: %s", connectionResult);
+    showSignedOutUI();
   }
 
   @Override
@@ -255,8 +255,8 @@ public class MainActivity extends AppCompatActivity implements
   @OnClick(R.id.sign_in_button)
   void signIn() {
     signInButton.setEnabled(false);
-    shouldResolve = true;
-    googleApiClientBridge.connect(googleApiClientToken);
+    Intent signInIntent = googleApiClientBridge.getSignInIntent(googleApiClientToken);
+    startActivityForResult(signInIntent, Constants.REQUEST_CODE_GOOGLE_PLUS_SIGN_IN);
   }
 
   private void signOut() {
@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements
       return;
     }
 
-    boolean visible = (googleApiClientBridge.isConnected(googleApiClientToken) &&
+    boolean visible = (googleApiClientBridge.isSignedIn() &&
         wordSetsListView.getVisibility() == View.VISIBLE);
     for (int i = 0; i < menu.size(); ++i) {
       menu.getItem(i).setVisible(visible);

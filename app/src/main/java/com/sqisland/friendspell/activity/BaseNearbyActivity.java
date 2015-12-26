@@ -2,6 +2,7 @@ package com.sqisland.friendspell.activity;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,13 +14,13 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
-import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
 import com.sqisland.friendspell.FriendSpellApplication;
 import com.sqisland.friendspell.R;
@@ -186,7 +187,7 @@ public abstract class BaseNearbyActivity extends AppCompatActivity implements
   }
 
   protected void addPerson(NearbyPerson person) {
-    Person me = googleApiClientBridge.getCurrentPerson(googleApiClientToken);
+    GoogleSignInAccount me = googleApiClientBridge.getCurrentAccount();
     if (me != null && person.googlePlusId.equals(me.getId())) {
       return;
     }
@@ -221,14 +222,17 @@ public abstract class BaseNearbyActivity extends AppCompatActivity implements
   }
 
   private void publishAndSubscribe() {
-    Person me = googleApiClientBridge.getCurrentPerson(googleApiClientToken);
+    GoogleSignInAccount me = googleApiClientBridge.getCurrentAccount();
     if (me == null) {
       return;
     }
 
     String displayName = me.getDisplayName();
-    Person.Image image = me.getImage();
-    String imageUrl = image.hasUrl() ? image.getUrl() : null;
+    if (displayName == null) {
+      displayName = "null";
+    }
+    Uri imageUri = googleApiClientBridge.getCurrentAccount().getPhotoUrl();
+    String imageUrl = imageUri != null ? imageUri.toString() : null;
     final NearbyPerson person = new NearbyPerson(
         me.getId(), displayName.substring(0, 1), displayName, imageUrl);
     byte[] data = GSON.toJson(person).getBytes();
@@ -240,7 +244,7 @@ public abstract class BaseNearbyActivity extends AppCompatActivity implements
       }
     });
 
-    Timber.d("Publishing: " + me.getUrl());
+    Timber.d("Publishing: " + me.getId());
     message = googleApiClientBridge.publish(googleApiClientToken, data, callback);
     googleApiClientBridge.subscribe(googleApiClientToken, messageListener, callback);
   }
