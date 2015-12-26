@@ -48,7 +48,7 @@ android {
 final DAGGER_VERSION = '2.0.2'
 final DEXMAKER_VERSION = '1.2'
 final MOCKITO_VERSION = '1.10.19'
-final GOOGLE_PLAY_SERVICES_VERSION = '8.3.0'
+final GOOGLE_PLAY_SERVICES_VERSION = '8.4.0'
 final SUPPORT_LIB_VERSION = '23.1.1'
 final ESPRESSO_VERSION = '2.2.1'
 
@@ -63,7 +63,7 @@ dependencies {
   compile "com.google.android.gms:play-services-auth:${GOOGLE_PLAY_SERVICES_VERSION}"
 
   compile 'nl.qbusict:cupboard:2.1.4'
-  compile 'com.google.code.gson:gson:2.4'
+  compile 'com.google.code.gson:gson:2.5'
   compile 'com.squareup.picasso:picasso:2.5.2'
 
   compile 'com.jakewharton.timber:timber:4.1.0'
