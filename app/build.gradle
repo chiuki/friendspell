@@ -6,13 +6,13 @@ tasks.matching {it instanceof Test}.all {
 }
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion '23.0.2'
+  compileSdkVersion 24
+  buildToolsVersion '24.0.1'
 
   defaultConfig {
     applicationId 'com.sqisland.friendspell'
     minSdkVersion 15
-    targetSdkVersion 23
+    targetSdkVersion 24
     versionCode 3
     versionName '1.0.2'
 
@@ -45,12 +45,12 @@ android {
   }
 }
 
-final DAGGER_VERSION = '2.0.2'
+final DAGGER_VERSION = '2.5'
 final DEXMAKER_VERSION = '1.2'
 final MOCKITO_VERSION = '1.10.19'
-final GOOGLE_PLAY_SERVICES_VERSION = '8.4.0'
-final SUPPORT_LIB_VERSION = '23.1.1'
-final ESPRESSO_VERSION = '2.2.1'
+final GOOGLE_PLAY_SERVICES_VERSION = '9.2.1'
+final SUPPORT_LIB_VERSION = '24.1.1'
+final ESPRESSO_VERSION = '2.2.2'
 
 dependencies {
   compile "com.google.dagger:dagger:${DAGGER_VERSION}"
@@ -63,18 +63,18 @@ dependencies {
   compile "com.google.android.gms:play-services-auth:${GOOGLE_PLAY_SERVICES_VERSION}"
 
   compile 'nl.qbusict:cupboard:2.1.4'
-  compile 'com.google.code.gson:gson:2.5'
+  compile 'com.google.code.gson:gson:2.7'
   compile 'com.squareup.picasso:picasso:2.5.2'
 
-  compile 'com.jakewharton.timber:timber:4.1.0'
+  compile 'com.jakewharton.timber:timber:4.1.2'
   compile 'com.jakewharton:butterknife:7.0.1'
 
   testCompile 'junit:junit:4.12'
 
-  androidTestCompile ('com.android.support.test:runner:0.4.1') {
+  androidTestCompile ('com.android.support.test:runner:0.5') {
     exclude module: 'support-annotations'
   }
-  androidTestCompile ('com.android.support.test:rules:0.4.1') {
+  androidTestCompile ('com.android.support.test:rules:0.5') {
     exclude module: 'support-annotations'
   }
   androidTestCompile ("com.android.support.test.espresso:espresso-core:${ESPRESSO_VERSION}") {
