@@ -16,7 +16,7 @@ android {
     versionCode 3
     versionName '1.0.2'
 
-    testInstrumentationRunner 'com.sqisland.friendspell.util.AndroidJacocoTestRunner'
+    testInstrumentationRunner 'com.sqisland.friendspell.util.MockTestRunner'
   }
 
   buildTypes {
