@@ -1,0 +1,70 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <LinearLayout
+    android:id="@+id/word"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <include layout="@layout/letter"/>
+
+    <include layout="@layout/letter"/>
+
+    <include layout="@layout/letter"/>
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="@dimen/spell_letter_box_size"
+        android:layout_height="@dimen/spell_letter_box_size"
+        android:layout_margin="@dimen/spell_letter_margin"
+        android:gravity="center"
+        android:background="@drawable/letter_source_background"
+        android:contentDescription="@string/friend_c"
+        app:srcCompat="@drawable/kameleon_man_9_"/>
+
+    <ImageView
+        android:layout_width="@dimen/spell_letter_box_size"
+        android:layout_height="@dimen/spell_letter_box_size"
+        android:layout_margin="@dimen/spell_letter_margin"
+        android:gravity="center"
+        android:background="@drawable/letter_source_background"
+        android:contentDescription="@string/friend_a"
+        app:srcCompat="@drawable/kameleon_woman_9"/>
+
+    <ImageView
+        android:layout_width="@dimen/spell_letter_box_size"
+        android:layout_height="@dimen/spell_letter_box_size"
+        android:layout_margin="@dimen/spell_letter_margin"
+        android:gravity="center"
+        android:background="@drawable/letter_source_background"
+        android:contentDescription="@string/friend_r"
+        app:srcCompat="@drawable/kameleon_woman_15"/>
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/activity_vertical_margin"
+      android:orientation="horizontal">
+
+    <TextView
+        style="@style/IntroFriendName"
+        android:text="@string/friend_c"/>
+
+    <TextView
+        style="@style/IntroFriendName"
+        android:text="@string/friend_a"/>
+
+    <TextView
+        style="@style/IntroFriendName"
+        android:text="@string/friend_r"/>
+  </LinearLayout>
+</merge>

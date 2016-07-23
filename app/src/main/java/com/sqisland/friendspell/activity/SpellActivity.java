@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,7 +31,6 @@ import com.sqisland.friendspell.storage.WordSetItem;
 import com.sqisland.friendspell.ui.CircleTransform;
 import com.sqisland.friendspell.util.Constants;
 import com.sqisland.friendspell.util.FontUtil;
-import com.sqisland.friendspell.util.ImageUtil;
 import com.sqisland.friendspell.util.NavigationUtil;
 import com.sqisland.friendspell.util.ViewUtil;
 import com.sqisland.friendspell.util.WordUtil;
@@ -90,6 +92,8 @@ public class SpellActivity extends AppCompatActivity implements
 
     ButterKnife.bind(this);
     ((FriendSpellApplication) getApplication()).component().inject(this);
+
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -184,9 +188,9 @@ public class SpellActivity extends AppCompatActivity implements
       spelledWord = wordSetItem.spelledWord;
     }
 
-    int resId = (wordSetItem == null) ?
-        R.raw.word_image_placeholder : ViewUtil.getWordImageResId(this, word);
-    showWordImage(resId);
+    @ColorRes int resId = (wordSetItem == null) ?
+        R.drawable.word_image_placeholder : ViewUtil.getWordImageResId(this, word);
+    wordImageView.setImageResource(resId);
 
     int[] colors = (wordSetItem == null) ?
         WordUtil.getWordColors(letters, word) :
@@ -205,7 +209,8 @@ public class SpellActivity extends AppCompatActivity implements
           (TextView) wordContainer.getChildAt(i));
       textView.setTypeface(typeface);
       textView.setText(word.substring(i, i + 1));
-      textView.setTextColor(colors[i]);
+      @ColorInt int color = colors[i];
+      textView.setTextColor(color);
       if (initial) {
         wordContainer.addView(textView);
       }
@@ -313,11 +318,7 @@ public class SpellActivity extends AppCompatActivity implements
     item.spelledWord = spelledWord;
     databaseApi.saveWord(item);
 
-    showWordImage(ViewUtil.getWordImageResId(this, item.word));
+    wordImageView.setImageResource(ViewUtil.getWordImageResId(this, item.word));
     spellButton.setVisibility(View.GONE);
-  }
-
-  private void showWordImage(int resId) {
-    wordImageView.setImageBitmap(ImageUtil.createWordImageBitmap(getResources(), resId));
   }
 }

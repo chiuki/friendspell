@@ -3,8 +3,8 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
         android:width="@dimen/vector_drawable_size"
         android:height="@dimen/vector_drawable_size"
-        android:viewportWidth="@dimen/vector_drawable_viewport_size"
-        android:viewportHeight="@dimen/vector_drawable_viewport_size">
+        android:viewportHeight="128"
+        android:viewportWidth="128">
   <path
     android:fillColor="#FCC21B"
     android:pathData="M110.9,47.45c-0.05-0.93-0.19-1.86-0.3-2.79c2.5,0.47,5.78,2.12,5.24,7.72c-0.41,4.28-2.36,7.12-5.48,7.03

@@ -1,11 +1,7 @@
 package com.sqisland.friendspell.activity;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,7 +12,6 @@ import com.sqisland.friendspell.storage.DatabaseApi;
 import com.sqisland.friendspell.storage.LetterSource;
 import com.sqisland.friendspell.storage.WordSetItem;
 import com.sqisland.friendspell.util.FontUtil;
-import com.sqisland.friendspell.util.ImageUtil;
 import com.sqisland.friendspell.util.ViewUtil;
 import com.sqisland.friendspell.util.WordUtil;
 
@@ -47,7 +42,7 @@ public class WordAdapter extends ArrayAdapter<String> {
 
     WordSetItem item = databaseApi.loadWord(name, word);
 
-    int resId = R.raw.word_image_placeholder;
+    int resId = R.drawable.word_image_placeholder;
 
     if (item == null) {
       if (availableLetters == null) {
@@ -62,10 +57,7 @@ public class WordAdapter extends ArrayAdapter<String> {
       resId = ViewUtil.getWordImageResId(getContext(), word);
     }
 
-    Resources res = getContext().getResources();
-    Bitmap bitmap = ImageUtil.createWordThumbnailBitmap(res, resId);
-    Drawable thumbnail = new BitmapDrawable(res, bitmap);
-    textView.setCompoundDrawablesWithIntrinsicBounds(thumbnail, null, null, null);
+    textView.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
 
     return textView;
   }

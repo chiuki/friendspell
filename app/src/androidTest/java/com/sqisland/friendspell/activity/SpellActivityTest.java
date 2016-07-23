@@ -27,7 +27,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.sqisland.friendspell.util.CustomMatchers.withWordImage;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -182,9 +181,6 @@ public class SpellActivityTest extends BaseTest {
     activityRule.launchActivity(intent);
 
     TestUtil.matchToolbarTitle(item.word);
-
-    onView(withId(R.id.word_image))
-        .check(matches(withWordImage(R.raw.ox)));
 
     TestUtil.verifyViewGroupWordColors(
         R.id.word,

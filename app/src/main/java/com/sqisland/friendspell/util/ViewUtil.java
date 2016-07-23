@@ -28,7 +28,7 @@ public abstract class ViewUtil {
 
   public static int getWordImageResId(Context context, String word) {
     return context.getResources().getIdentifier(
-        word.toLowerCase(Locale.ENGLISH), "raw", context.getPackageName());
+        word.toLowerCase(Locale.ENGLISH), "drawable", context.getPackageName());
   }
 
   private static void setLetterColor(SpannableString string, int position, int color) {

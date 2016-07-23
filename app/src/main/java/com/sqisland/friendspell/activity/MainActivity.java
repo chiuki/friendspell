@@ -2,19 +2,17 @@ package com.sqisland.friendspell.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,7 +30,6 @@ import com.sqisland.friendspell.storage.WordSet;
 import com.sqisland.friendspell.storage.WordSetStore;
 import com.sqisland.friendspell.util.Constants;
 import com.sqisland.friendspell.util.FontUtil;
-import com.sqisland.friendspell.util.ImageUtil;
 import com.sqisland.friendspell.util.ViewUtil;
 import com.sqisland.friendspell.util.WordUtil;
 
@@ -57,14 +54,6 @@ public class MainActivity extends AppCompatActivity implements
 
   @BindView(R.id.word)
   LinearLayout wordContainer;
-  @BindView(R.id.word_image)
-  ImageView wordImageView;
-  @BindView(R.id.friend_c)
-  ImageView friendCView;
-  @BindView(R.id.friend_a)
-  ImageView friendAView;
-  @BindView(R.id.friend_r)
-  ImageView friendRView;
   @BindView(R.id.word_sets)
   ListView wordSetsListView;
 
@@ -91,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements
 
     ((FriendSpellApplication) getApplication()).component().inject(this);
     ButterKnife.bind(this);
+
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     googleApiClientToken = googleApiClientBridge.init(this, this, this);
 
@@ -130,29 +121,6 @@ public class MainActivity extends AppCompatActivity implements
       textView.setTypeface(typeface);
       textView.setText(ViewUtil.getColoredWord(colors, letter));
     }
-
-    loadWordImage();
-    showFriend(friendCView, "kameleon_man_9_", R.dimen.spell_letter_box_size);
-    showFriend(friendAView, "kameleon_woman_9", R.dimen.spell_letter_box_size);
-    showFriend(friendRView, "kameleon_woman_15", R.dimen.spell_letter_box_size);
-  }
-
-  private void loadWordImage() {
-    int resId = ViewUtil.getWordImageResId(this, "automobile");
-    int width = getResources().getDimensionPixelSize(R.dimen.automobile_width);
-    int height = getResources().getDimensionPixelSize(R.dimen.automobile_height);
-    float viewportWidth = getResources().getDimension(R.dimen.automobile_viewport_width);
-    float viewportHeight = getResources().getDimension(R.dimen.automobile_viewport_height);
-    Bitmap bitmap = ImageUtil.createBitmapFromVector(
-        getResources(), resId, width, height, viewportWidth, viewportHeight);
-    wordImageView.setImageBitmap(bitmap);
-  }
-
-  private void showFriend(ImageView imageView, String name, @DimenRes int sizeResId) {
-    int resId = ViewUtil.getWordImageResId(this, name);
-    int size = getResources().getDimensionPixelSize(sizeResId);
-    Bitmap bitmap = ImageUtil.createBitmapFromVector(getResources(), resId, size);
-    imageView.setImageBitmap(bitmap);
   }
 
   @Override public void onStart() {

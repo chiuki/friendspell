@@ -29,55 +29,8 @@
       android:layout_marginBottom="@dimen/activity_vertical_margin"
       android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
-    <LinearLayout
-      android:id="@+id/word"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal">
+    <include layout="@layout/part_main_friends"/>
 
-      <include layout="@layout/letter"/>
-
-      <include layout="@layout/letter"/>
-
-      <include layout="@layout/letter"/>
-    </LinearLayout>
-
-    <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal">
-
-      <include
-        android:id="@+id/friend_c"
-        layout="@layout/single_source"/>
-
-      <include
-        android:id="@+id/friend_a"
-        layout="@layout/single_source"/>
-
-      <include
-        android:id="@+id/friend_r"
-        layout="@layout/single_source"/>
-    </LinearLayout>
-
-    <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="@dimen/activity_vertical_margin"
-      android:orientation="horizontal">
-
-      <TextView
-        style="@style/IntroFriendName"
-        android:text="@string/friend_c"/>
-
-      <TextView
-        style="@style/IntroFriendName"
-        android:text="@string/friend_a"/>
-
-      <TextView
-        style="@style/IntroFriendName"
-        android:text="@string/friend_r"/>
-    </LinearLayout>
   </LinearLayout>
 
   <LinearLayout

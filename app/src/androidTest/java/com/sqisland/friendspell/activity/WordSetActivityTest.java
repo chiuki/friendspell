@@ -30,8 +30,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.sqisland.friendspell.util.CustomMatchers.withColors;
-import static com.sqisland.friendspell.util.CustomMatchers.withWordImage;
-import static com.sqisland.friendspell.util.CustomMatchers.withWordThumbnail;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
@@ -213,8 +211,7 @@ public class WordSetActivityTest extends BaseTest {
             WordUtil.COLOR_MISSING,
             WordUtil.COLOR_MISSING,
             WordUtil.COLOR_MISSING
-        )))
-        .check(matches(withWordThumbnail(R.raw.word_image_placeholder)));
+        )));
     onData(is("PIZZA"))
         .check(matches(withColors(
             WordUtil.COLOR_COMBO,
@@ -222,16 +219,14 @@ public class WordSetActivityTest extends BaseTest {
             WordUtil.COLOR_MISSING,
             WordUtil.COLOR_MISSING,
             WordUtil.COLOR_ONE
-        )))
-        .check(matches(withWordThumbnail(R.raw.word_image_placeholder)));
+        )));
     onData(is("TAXI"))
         .check(matches(withColors(
             WordUtil.COLOR_ONE,
             WordUtil.COLOR_ONE,
             WordUtil.COLOR_COMBO,
             WordUtil.COLOR_MISSING
-        )))
-        .check(matches(withWordThumbnail(R.raw.word_image_placeholder)));
+        )));
     onData(is("LIBERTY"))
         .check(matches(withColors(
             WordUtil.COLOR_COMBO,
@@ -241,15 +236,13 @@ public class WordSetActivityTest extends BaseTest {
             WordUtil.COLOR_ONE,
             WordUtil.COLOR_ONE,
             WordUtil.COLOR_MISSING
-        )))
-        .check(matches(withWordThumbnail(R.raw.word_image_placeholder)));
+        )));
 
     // Go to SpellActivity with TAXI
     onData(is("TAXI"))
         .perform(click());
 
-    onView(withId(R.id.word_image))
-        .check(matches(withWordImage(R.raw.word_image_placeholder)));
+    onView(withId(R.id.word_image));
 
     TestUtil.verifyViewGroupWordColors(
         R.id.word,
@@ -288,16 +281,10 @@ public class WordSetActivityTest extends BaseTest {
         WordUtil.COLOR_COMBO);
     TestUtil.verifyViewGroupWordSources(R.id.sources, 1, 1, 1, 4);
 
-    onView(withId(R.id.word_image))
-        .check(matches(withWordImage(R.raw.word_image_placeholder)));
-
     onView(withId(R.id.spell_button))
         .check(matches(isEnabled()))
         .perform(click())
         .check(matches(not(isDisplayed())));
-
-    onView(withId(R.id.word_image))
-        .check(matches(withWordImage(R.raw.taxi)));
 
     // Back to WordSetActivity
     TestUtil.clickActionBarHomeButton();
@@ -309,8 +296,7 @@ public class WordSetActivityTest extends BaseTest {
             WordUtil.COLOR_MISSING,
             WordUtil.COLOR_MISSING,
             WordUtil.COLOR_MISSING
-        )))
-        .check(matches(withWordThumbnail(R.raw.word_image_placeholder)));
+        )));
     onData(is("PIZZA"))
         .check(matches(withColors(
             WordUtil.COLOR_MISSING,
@@ -318,16 +304,14 @@ public class WordSetActivityTest extends BaseTest {
             WordUtil.COLOR_MISSING,
             WordUtil.COLOR_MISSING,
             WordUtil.COLOR_MISSING
-        )))
-        .check(matches(withWordThumbnail(R.raw.word_image_placeholder)));
+        )));
     onData(is("TAXI"))
         .check(matches(withColors(
             WordUtil.COLOR_ONE,
             WordUtil.COLOR_ONE,
             WordUtil.COLOR_ONE,
             WordUtil.COLOR_COMBO
-        )))
-        .check(matches(withWordThumbnail(R.raw.taxi)));
+        )));
     onData(is("LIBERTY"))
         .check(matches(withColors(
             WordUtil.COLOR_MISSING,
@@ -337,8 +321,7 @@ public class WordSetActivityTest extends BaseTest {
             WordUtil.COLOR_ONE,
             WordUtil.COLOR_MISSING,
             WordUtil.COLOR_MISSING
-        )))
-        .check(matches(withWordThumbnail(R.raw.word_image_placeholder)));
+        )));
   }
 
   @Test
@@ -364,8 +347,7 @@ public class WordSetActivityTest extends BaseTest {
         .check(matches(withColors(
             WordUtil.COLOR_COMBO,
             WordUtil.COLOR_ONE
-        )))
-        .check(matches(withWordThumbnail(R.raw.ox)));
+        )));
   }
 
   private void verifyMissingColor(String word) {

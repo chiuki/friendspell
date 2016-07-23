@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.RawRes;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannedString;
@@ -14,7 +13,6 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.hamcrest.Description;
@@ -125,42 +123,6 @@ public abstract class CustomMatchers {
         return (drawables[position] == null);
       }
     };
-  }
-
-  public static Matcher<View> withWordThumbnail(@RawRes final int resId) {
-    return new BoundedMatcher<View, TextView>(TextView.class) {
-      @Override public void describeTo(Description description) {
-        description.appendText(
-            "has word thumbnail resource " + resId);
-      }
-      @Override public boolean matchesSafely(TextView textView) {
-        Drawable drawables[] = textView.getCompoundDrawables();
-        return sameWordBitmap(
-            ImageUtil.createWordThumbnailBitmap(textView.getResources(), resId),
-            drawables[0]);
-      }
-    };
-  }
-
-  public static Matcher<View> withWordImage(@RawRes final int resId) {
-    return new BoundedMatcher<View, ImageView>(ImageView.class) {
-      @Override public void describeTo(Description description) {
-        description.appendText(
-            "has word image resource " + resId);
-      }
-      @Override public boolean matchesSafely(ImageView imageView) {
-        return sameWordBitmap(
-            ImageUtil.createWordImageBitmap(imageView.getResources(), resId),
-            imageView.getDrawable());
-      }
-    };
-  }
-
-  private static boolean sameWordBitmap(Bitmap expected, Drawable drawable) {
-    if (drawable instanceof BitmapDrawable) {
-      return expected.sameAs(((BitmapDrawable) drawable).getBitmap());
-    }
-    return false;
   }
 
   private static String getHexColor(int color) {
