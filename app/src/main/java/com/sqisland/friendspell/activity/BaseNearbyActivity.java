@@ -39,7 +39,7 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
@@ -75,9 +75,9 @@ public abstract class BaseNearbyActivity extends AppCompatActivity implements
 
   private ErrorCheckingCallback callback = new ErrorCheckingCallback();
 
-  @Bind(R.id.list)
+  @BindView(R.id.list)
   ListView listView;
-  @Bind(R.id.empty)
+  @BindView(R.id.empty)
   View emptyView;
   private NearbyAdapter adapter;
   private HashMap<String, NearbyPerson> people = new HashMap<>();

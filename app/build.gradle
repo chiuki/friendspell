@@ -47,6 +47,7 @@ android {
 
 final DAGGER_VERSION = '2.5'
 final DEXMAKER_VERSION = '1.2'
+final BUTTERKNIFE_VERSION = '8.2.1'
 final MOCKITO_VERSION = '1.10.19'
 final GOOGLE_PLAY_SERVICES_VERSION = '9.2.1'
 final SUPPORT_LIB_VERSION = '24.1.1'
@@ -67,7 +68,8 @@ dependencies {
   compile 'com.squareup.picasso:picasso:2.5.2'
 
   compile 'com.jakewharton.timber:timber:4.1.2'
-  compile 'com.jakewharton:butterknife:7.0.1'
+  compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
+  apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
 
   testCompile 'junit:junit:4.12'
 

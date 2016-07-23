@@ -39,33 +39,33 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SpellActivity extends AppCompatActivity implements
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener {
-  @Bind(R.id.nearby_tip)
+  @BindView(R.id.nearby_tip)
   View nearbyTip;
 
-  @Bind(R.id.word_image)
+  @BindView(R.id.word_image)
   ImageView wordImageView;
 
-  @Bind(R.id.word)
+  @BindView(R.id.word)
   LinearLayout wordContainer;
 
-  @Bind(R.id.sources)
+  @BindView(R.id.sources)
   LinearLayout sourcesContainer;
 
-  @Bind(R.id.multi_source_tip)
+  @BindView(R.id.multi_source_tip)
   View multiSourceTip;
-  @Bind(R.id.multi_source_tip_arrow)
+  @BindView(R.id.multi_source_tip_arrow)
   View multiSourceTipArrow;
-  @Bind(R.id.multi_source_tip_arrow_handle)
+  @BindView(R.id.multi_source_tip_arrow_handle)
   View multiSourceTipArrowHandle;
 
-  @Bind(R.id.spell_button)
+  @BindView(R.id.spell_button)
   View spellButton;
 
   @Inject

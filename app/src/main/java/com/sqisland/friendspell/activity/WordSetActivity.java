@@ -23,7 +23,7 @@ import java.io.InputStreamReader;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
@@ -31,7 +31,7 @@ public class WordSetActivity extends AppCompatActivity {
   @Inject
   DatabaseApi databaseApi;
 
-  @Bind(R.id.words)
+  @BindView(R.id.words)
   ListView listView;
 
   private WordSetStore store;

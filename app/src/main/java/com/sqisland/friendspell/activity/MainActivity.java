@@ -42,7 +42,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
@@ -50,22 +50,22 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity implements
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener {
-  @Bind(R.id.signed_out_pane)
+  @BindView(R.id.signed_out_pane)
   View signedOutPane;
-  @Bind(R.id.sign_in_button)
+  @BindView(R.id.sign_in_button)
   View signInButton;
 
-  @Bind(R.id.word)
+  @BindView(R.id.word)
   LinearLayout wordContainer;
-  @Bind(R.id.word_image)
+  @BindView(R.id.word_image)
   ImageView wordImageView;
-  @Bind(R.id.friend_c)
+  @BindView(R.id.friend_c)
   ImageView friendCView;
-  @Bind(R.id.friend_a)
+  @BindView(R.id.friend_a)
   ImageView friendAView;
-  @Bind(R.id.friend_r)
+  @BindView(R.id.friend_r)
   ImageView friendRView;
-  @Bind(R.id.word_sets)
+  @BindView(R.id.word_sets)
   ListView wordSetsListView;
 
   private Menu menu;

@@ -25,7 +25,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PeopleActivity extends AppCompatActivity implements
@@ -38,13 +38,13 @@ public class PeopleActivity extends AppCompatActivity implements
   GoogleApiClientBridge googleApiClientBridge;
   private String googleApiClientToken;
 
-  @Bind(R.id.list)
+  @BindView(R.id.list)
   ListView listView;
 
-  @Bind(R.id.empty)
+  @BindView(R.id.empty)
   View emptyView;
 
-  @Bind(R.id.nearby_tip)
+  @BindView(R.id.nearby_tip)
   View nearbyTip;
 
   private NearbyAdapter adapter;
