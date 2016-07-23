@@ -102,6 +102,11 @@ public abstract class BaseNearbyActivity extends AppCompatActivity implements
 
     googleApiClientToken = googleApiClientBridge.init(this, this, this);
     circleTransform = new CircleTransform();
+
+    NearbyPerson me = getMe();
+    if (me != null) {
+      setupListView(me);
+    }
   }
 
   @Override public void onStart() {
@@ -221,10 +226,10 @@ public abstract class BaseNearbyActivity extends AppCompatActivity implements
     }
   }
 
-  private void publishAndSubscribe() {
+  private NearbyPerson getMe() {
     GoogleSignInAccount me = googleApiClientBridge.getCurrentAccount();
     if (me == null) {
-      return;
+      return null;
     }
 
     String displayName = me.getDisplayName();
@@ -233,18 +238,19 @@ public abstract class BaseNearbyActivity extends AppCompatActivity implements
     }
     Uri imageUri = googleApiClientBridge.getCurrentAccount().getPhotoUrl();
     String imageUrl = imageUri != null ? imageUri.toString() : null;
-    final NearbyPerson person = new NearbyPerson(
+
+    return new NearbyPerson(
         me.getId(), displayName.substring(0, 1), displayName, imageUrl);
-    byte[] data = GSON.toJson(person).getBytes();
+  }
 
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        setupListView(person);
-      }
-    });
+  private void publishAndSubscribe() {
+    final NearbyPerson me = getMe();
+    if (me == null) {
+      return;
+    }
+    byte[] data = GSON.toJson(me).getBytes();
 
-    Timber.d("Publishing: " + me.getId());
+    Timber.d("Publishing: " + me.googlePlusId);
     message = googleApiClientBridge.publish(googleApiClientToken, data, callback);
     googleApiClientBridge.subscribe(googleApiClientToken, messageListener, callback);
   }
