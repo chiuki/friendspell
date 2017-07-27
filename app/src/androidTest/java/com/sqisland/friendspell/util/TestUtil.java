@@ -164,7 +164,7 @@ public class TestUtil {
         return null;
       }
     }).when(googleApiClientBridge).getProfileImages(
-        Mockito.anyString(), Mockito.anyList(), getProfileImagesCallbackArgument.capture());
+        Mockito.anyString(), Mockito.anyListOf(String.class), getProfileImagesCallbackArgument.capture());
 
     final ArgumentCaptor<String> userIdArgument = ArgumentCaptor.forClass(String.class);
     Mockito.doAnswer(new Answer() {

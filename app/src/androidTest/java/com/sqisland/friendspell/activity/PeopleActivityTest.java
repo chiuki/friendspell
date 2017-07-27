@@ -77,7 +77,7 @@ public class PeopleActivityTest extends BaseTest {
     Mockito.verify(googleApiClientBridge, Mockito.times(1)).getProfileImage(TestUtil.COLT.googlePlusId);
     Mockito.verify(googleApiClientBridge, Mockito.times(1)).getProfileImages(
         Mockito.anyString(),
-        Mockito.anyList(),
+        Mockito.anyListOf(String.class),
         Mockito.any(GoogleApiClientBridge.GetProfileImagesCallback.class));
   }
 
@@ -129,7 +129,7 @@ public class PeopleActivityTest extends BaseTest {
     Mockito.verify(googleApiClientBridge, Mockito.times(1)).getProfileImage(TestUtil.CHET.googlePlusId);
     Mockito.verify(googleApiClientBridge, Mockito.times(2)).getProfileImages(
         Mockito.anyString(),
-        Mockito.anyList(),
+        Mockito.anyListOf(String.class),
         Mockito.any(GoogleApiClientBridge.GetProfileImagesCallback.class));
   }
 }

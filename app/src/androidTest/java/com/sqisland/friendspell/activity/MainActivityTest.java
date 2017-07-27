@@ -18,6 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -118,12 +119,13 @@ public class MainActivityTest extends BaseTest {
     Mockito.when(mockPendingResult.isDone()).thenReturn(true);
     Mockito.when(mockPendingResult.get()).thenReturn(mockInitialSignInResult);
     Mockito.when(googleApiClientBridge.silentSignIn(Mockito.anyString()))
-            .thenReturn(mockPendingResult);
+        .thenReturn(mockPendingResult);
     Mockito.when(googleApiClientBridge.isConnected(Mockito.anyString())).thenReturn(true);
     Mockito.when(googleApiClientBridge.isSignedIn()).thenReturn(initialStatus);
-    Mockito.when(googleApiClientBridge.getSignInResultFromIntent(Mockito.any(Intent.class)))
-            .thenReturn(mockSuccessfulSignInResult);
+    Mockito.when(googleApiClientBridge
+        .getSignInResultFromIntent(ArgumentMatchers.isNull(Intent.class)))
+        .thenReturn(mockSuccessfulSignInResult);
     Mockito.when(googleApiClientBridge.getSignInIntent(Mockito.anyString()))
-            .thenReturn(new Intent("com.google.android.gms.auth.GOOGLE_SIGN_IN"));
+        .thenReturn(new Intent("com.google.android.gms.auth.GOOGLE_SIGN_IN"));
   }
 }

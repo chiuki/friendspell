@@ -47,7 +47,6 @@ android {
 
 final DAGGER_VERSION = '2.11'
 final BUTTERKNIFE_VERSION = '8.7.0'
-final MOCKITO_VERSION = '1.10.19'
 final GOOGLE_PLAY_SERVICES_VERSION = '11.0.2'
 final SUPPORT_LIB_VERSION = '25.3.1'
 final ESPRESSO_VERSION = '3.0.0'
@@ -85,7 +84,7 @@ dependencies {
     exclude module: 'support-annotations'
   }
 
-  androidTestCompile "org.mockito:mockito-core:${MOCKITO_VERSION}"
+  androidTestCompile 'org.mockito:mockito-android:2.8.47'
   androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
 }
 
